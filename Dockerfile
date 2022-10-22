@@ -20,15 +20,15 @@ WORKDIR /workspace/hashcat-6.2.6/
 RUN make
 RUN make install
 
-WORKDIR /workspace/hashcat-utils
-RUN make
+WORKDIR /workspace/hashcat-utils/src
+RUN make all
+RUN mv *.bin ../bin
+RUN cp -a *.pl ../bin
 
 WORKDIR /workspace/wordlists
-RUN wget https://www.hashmob.net/api/v2/downloads/research/official/hashmob.net_2022-10-16.found.7z
-RUN wget https://www.hashmob.net/api/v2/downloads/research/official/hashmob.net_2022-10-16.user.found.7z
-RUN wget https://www.hashmob.net/api/v2/downloads/research/official/hashmob.net_2022-10-16.tiny.found.7z
-RUN wget https://www.hashmob.net/api/v2/downloads/research/wordlists/rockyou.txt
-RUN 7z e *.7z
+COPY *.txt /workspace/wordlists/
+COPY *.found /workspace/wordlists/
+COPY *.rules /workspace/wordlists/
 
 WORKDIR /workspace
 ENTRYPOINT [ "/usr/bin/zsh" ]
