@@ -1,0 +1,8 @@
+version: "3"
+services:
+  app:
+    image: cleeb/saintcon-password-cracking:latest
+    build: .
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    runtime: nvidia
