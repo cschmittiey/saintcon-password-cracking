@@ -1,6 +1,7 @@
 version: "3.3"
 services:
   workspace:
+    hostname: hack-the-planet # hehe
     image: cleeb/saintcon-password-cracking:latest
     build: .
     stdin_open: true # docker run -i
