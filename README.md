@@ -4,11 +4,11 @@ This is a docker image that provides a ready to use password cracking experience
 
 ## Prerequisites
 
-You will need a linux host (maybe WSL?? If it works for you, let us know!) with the nvidia-cuda libraries, a recent NVIDIA driver, and nvidia-container-runtime.
+You will need a linux host (maybe WSL2?? If it works for you, let us know!) with the nvidia-cuda libraries, a recent NVIDIA driver, and nvidia-container-runtime.
 
 ## Tools included:
 
-- nvidia drivers (your host will need `nvidia-container-runtime`)
+- nvidia cuda libraries for hashcat (your host will need `nvidia-container-runtime`)
 - zsh and grml-zsh-config (because i like it better ok)
 - hashcat (can't really crack passwords without it, can we)
 - wordlists (add these yourselves, just drop some .txt files in this directory. a script is provided to download some with no guarantees of it working)
@@ -25,7 +25,7 @@ You will need a linux host (maybe WSL?? If it works for you, let us know!) with 
 - mcfly (for better CTRL-R)
 - python and ipython
 - veracrypt
-- some cool lil aliases
+- openSSH server
 
 ## How to use this container
 - download your wordlists, rules, and txt files into the same directory as this readme.
