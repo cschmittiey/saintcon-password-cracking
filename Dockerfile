@@ -1,6 +1,7 @@
 FROM nvidia/cuda:11.7.0-cudnn8-devel-rockylinux8
 # using the nvidia image because it's pre baked. sorry people with slow internet
 
+# thank god for fedora packagers. shoutout to them. 
 RUN dnf install epel-release -y
 
 # C development tools. this definitely pulls in way too much stuff. it's not as small as the fedora C Dev Tools group but i don't know what to use instead
@@ -51,6 +52,19 @@ RUN make install
 # install lsdeluxe
 RUN /root/.cargo/bin/cargo install lsd
 
+# install python and ipython using a modern version because rocky's version is like 3.6 by default. if only the module system made sense.
+RUN dnf module install python39 -y
+RUN alternatives --set python /usr/bin/python3.9
+RUN pip3.9 install ipython
+
+# install openssh server
+RUN dnf install openssh-server iproute util-linux-user -y
+RUN ssh-keygen -A
+RUN rm /run/nologin
+RUN echo "root:abcd1234" | chpasswd
+
+EXPOSE 22
+RUN chsh -s /usr/bin/zsh
 # reset us back into the workspace dir. I'm assuming this is where people will be working so they have easy access to tools.
 # maybe we should use a different dir?
 WORKDIR /workspace
