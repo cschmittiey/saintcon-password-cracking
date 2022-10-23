@@ -3,8 +3,14 @@ FROM nvidia/cuda:11.7.0-cudnn8-devel-rockylinux8
 
 RUN dnf install epel-release -y
 
+# C development tools. this definitely pulls in way too much stuff. it's not as small as the fedora C Dev Tools group but i don't know what to use instead
 RUN dnf groupinstall "Development Tools" -y
-RUN dnf install htop vim tmux nano wget zsh p7zip p7zip-plugins openssl-devel rust cargo -y
+
+# various tools and helpful dingles
+RUN dnf install htop vim tmux nano wget zsh p7zip p7zip-plugins openssl-devel -y
+
+# install rust
+RUN curl https://sh.rustup.rs -sSf | sh -s -- --profile minimal --default-toolchain beta -y
 
 # grml-zsh-config
 COPY .zshrc /root/
@@ -43,7 +49,7 @@ RUN make -j20
 RUN make install 
 
 # install lsdeluxe
-RUN cargo install lsd
+RUN /root/.cargo/bin/cargo install lsd
 
 # reset us back into the workspace dir. I'm assuming this is where people will be working so they have easy access to tools.
 # maybe we should use a different dir?

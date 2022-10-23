@@ -3961,4 +3961,3 @@ path+=("/workspace/hashcat-utils/bin")
 path+=("/root/.cargo/bin") #lsdeluxe
 alias ll="lsd -AlFtr --date relative --group-dirs last --icon never"
 alias tree="ll --tree"
-alias nano="micro"
