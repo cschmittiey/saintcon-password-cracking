@@ -28,25 +28,19 @@ RUN git clone https://github.com/openwall/john
 
 # build hashcat
 WORKDIR /workspace/hashcat-6.2.6/
-RUN make -j20
+RUN make -j2
 RUN make install
 
 # build hashcat-utils
 WORKDIR /workspace/hashcat-utils/src
-RUN make -j20 all 
+RUN make -j2 all 
 RUN mv *.bin ../bin
 RUN cp -a *.pl ../bin
-
-# copy in wordlists
-WORKDIR /workspace/wordlists
-COPY *.txt /workspace/wordlists/
-COPY *.found /workspace/wordlists/
-COPY *.rules /workspace/wordlists/
 
 # build john
 WORKDIR /workspace/john/src
 RUN ./configure
-RUN make -j20 
+RUN make -j2
 RUN make install 
 
 # install lsdeluxe
@@ -61,7 +55,18 @@ RUN pip3.9 install ipython
 RUN dnf install openssh-server iproute util-linux-user -y
 RUN ssh-keygen -A
 RUN rm /run/nologin
-RUN echo "root:abcd1234" | chpasswd
+RUN echo "root:cracktheplanet" | chpasswd
+
+# grab mdxfind
+WORKDIR /workspace/bin
+RUN wget https://www.techsolvency.com/pub/bin/mdxfind/mdxfind.1.116.bin
+RUN cp mdxfind.1.116.bin mdxfind
+
+# copy in wordlists
+WORKDIR /workspace/wordlists
+COPY *.txt /workspace/wordlists/
+COPY *.found /workspace/wordlists/
+COPY *.rules /workspace/wordlists/
 
 EXPOSE 22
 RUN chsh -s /usr/bin/zsh

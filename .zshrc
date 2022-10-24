@@ -3959,5 +3959,6 @@ unfunction grml_status_feature
 # cleeb's additions for the container:
 path+=("/workspace/hashcat-utils/bin")
 path+=("/root/.cargo/bin") #lsdeluxe
+path+=("/workspace/bin")
 alias ll="lsd -AlFtr --date relative --group-dirs last --icon never"
 alias tree="ll --tree"
