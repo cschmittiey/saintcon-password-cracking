@@ -6,9 +6,29 @@ services:
     build: .
     stdin_open: true # docker run -i
     tty: true        # docker run -t
+    environment:
+      - TEST="test"
     deploy:
       resources:
         reservations:
           devices:
-            - count: 1
-              capabilities: [gpu]
+             - count: 4
+               capabilities: [gpu]
+  workspace-cleeb:
+    hostname: cleeb-the-planet # hehe
+    image: cleeb/saintcon-password-cracking:latest
+    build: .
+    entrypoint: ["/usr/sbin/sshd", "-D"]
+    environment:
+      - TEST="test"
+    ports:
+      - "22002:22"
+    stdin_open: true # docker run -i
+    tty: true 
+    deploy:
+      resources:
+        reservations:
+          devices:
+             - count: 4
+               capabilities: [gpu]
+

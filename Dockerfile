@@ -52,21 +52,28 @@ RUN alternatives --set python /usr/bin/python3.9
 RUN pip3.9 install ipython
 
 # install openssh server
-RUN dnf install openssh-server iproute util-linux-user -y
+RUN dnf install openssh-server iproute util-linux-user passwd -y
 RUN ssh-keygen -A
 RUN rm /run/nologin
 RUN echo "root:cracktheplanet" | chpasswd
 
 # grab mdxfind
-WORKDIR /workspace/bin
-RUN wget https://www.techsolvency.com/pub/bin/mdxfind/mdxfind.1.116.bin
-RUN cp mdxfind.1.116.bin mdxfind
+WORKDIR /workspace/bin/
+RUN wget https://www.techsolvency.com/pub/bin/mdxfind/mdxfind.static
+RUN mv mdxfind.static mdxfind
+RUN chmod +x mdxfind
+
+# grab the python3 fork of PACK
+WORKDIR /workspace/pack/
+run git clone https://github.com/Hydraze/pack
 
 # copy in wordlists
 WORKDIR /workspace/wordlists
 COPY *.txt /workspace/wordlists/
 COPY *.found /workspace/wordlists/
 COPY *.rules /workspace/wordlists/
+
+COPY ./challenges/ /workspace/challenges/
 
 EXPOSE 22
 RUN chsh -s /usr/bin/zsh
